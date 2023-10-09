@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hard Drive Simulation</title>
+    <style>
+        .hard-drive {
+            width: 200px;
+            height: 100px;
+            background-color: #ccc;
+            margin: 10px;
+            float: left;
+            padding: 10px;
+            border: 2px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hard Drive Simulation</h1>
+    <div id="hardDriveContainer">
+        <!-- Hard drives will be dynamically created and added here by JavaScript -->
+    </div>
+
+    <script>
+        // Function to simulate read and write operations on a hard drive
+        function simulateHardDrivePerformance(hardDriveElement) {
+            const readSpeed = Math.floor(Math.random() * 100) + 100; // Random read speed in MB/s
+            const writeSpeed = Math.floor(Math.random() * 50) + 50; // Random write speed in MB/s
+
+            // Simulate a read operation
+            const simulateRead = () => {
+                hardDriveElement.style.backgroundColor = "blue";
+                hardDriveElement.textContent = `Reading (${readSpeed} MB/s)`;
+                setTimeout(() => {
+                    hardDriveElement.style.backgroundColor = "#ccc";
+                    hardDriveElement.textContent = `${hardDriveElement.dataset.brand} ${hardDriveElement.dataset.model}`;
+                }, readSpeed);
+            };
+
+            // Simulate a write operation
+            const simulateWrite = () => {
+                hardDriveElement.style.backgroundColor = "green";
+                hardDriveElement.textContent = `Writing (${writeSpeed} MB/s)`;
+                setTimeout(() => {
+                    hardDriveElement.style.backgroundColor = "#ccc";
+                    hardDriveElement.textContent = `${hardDriveElement.dataset.brand} ${hardDriveElement.dataset.model}`;
+                }, writeSpeed);
+            };
+
+            // Start simulating read and write operations at intervals
+            setInterval(() => {
+                const operation = Math.random() < 0.5 ? simulateRead : simulateWrite;
+                operation();
+            }, Math.random() * 5000); // Randomize the intervals
+        }
+
+        // Create and initialize 8 hard drives with brand, model, and RPM details
+        const hardDriveContainer = document.getElementById("hardDriveContainer");
+        const hardDriveDetails = [
+            { brand: "Seagate", model: "BarraCuda" },
+            { brand: "Western Digital", model: "WD Blue" },
+            { brand: "Samsung", model: "860 EVO" },
+            { brand: "Toshiba", model: "X300" },
+            { brand: "Crucial", model: "MX500" },
+            { brand: "Kingston", model: "A2000" },
+            { brand: "HGST", model: "Ultrastar" },
+            { brand: "SanDisk", model: "Ultra 3D" },
+        ];
+
+        for (let i = 0; i < hardDriveDetails.length; i++) {
+            const hardDriveElement = document.createElement("div");
+            hardDriveElement.classList.add("hard-drive");
+            hardDriveElement.textContent = `${hardDriveDetails[i].brand} ${hardDriveDetails[i].model}`;
+            hardDriveElement.dataset.brand = hardDriveDetails[i].brand;
+            hardDriveElement.dataset.model = hardDriveDetails[i].model;
+            hardDriveContainer.appendChild(hardDriveElement);
+            simulateHardDrivePerformance(hardDriveElement);
+        }
+    </script>
+</body>
+</html>
