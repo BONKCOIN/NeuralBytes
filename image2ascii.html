@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image to ASCII Art Converter</title>
+</head>
+<body>
+<center><h1>Image to ASCII BY JOSE DIAZ</h1>
+    <input type="file" id="imageInput" accept="image/*">
+    <button id="openWindowButton">Open in a New Window</button>
+
+    <script>
+        // Function to convert an image to ASCII art
+        function convertToASCII(imageData, width, height) {
+            const asciiChars = '@%#*+=-:. ';
+
+            let asciiArt = '';
+
+            // Loop through each pixel in the image
+            for (let i = 0; i < height; i += 2) {
+                for (let j = 0; j < width; j++) {
+                    // Get the pixel's RGBA values
+                    const pixelIndex = (i * width + j) * 4;
+                    const r = imageData[pixelIndex];
+                    const g = imageData[pixelIndex + 1];
+                    const b = imageData[pixelIndex + 2];
+
+                    // Convert RGB to grayscale
+                    const grayscale = 0.299 * r + 0.587 * g + 0.114 * b;
+
+                    // Map grayscale value to an ASCII character
+                    const index = Math.floor((grayscale / 255) * (asciiChars.length - 1));
+                    asciiArt += asciiChars[index];
+                }
+                asciiArt += '\n';
+            }
+
+            return asciiArt;
+        }
+
+        // Function to handle image input change
+        function handleImageInput(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const image = new Image();
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+
+                image.onload = function () {
+                    const width = 512;
+                    const height = 512;
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    context.drawImage(image, 0, 0, width, height);
+
+                    const imageData = context.getImageData(0, 0, width, height).data;
+
+                    const asciiArt = convertToASCII(imageData, width, height);
+
+                    // Open a new window without any toolbars or controls
+                    const newWindow = window.open('', '_blank', 'width=600,height=400,toolbar=no,menubar=no,location=no,status=no');
+                    newWindow.document.open();
+                    newWindow.document.write('<title>ASCII Art</title>');
+                    newWindow.document.write('<pre>' + asciiArt + '</pre>');
+                    newWindow.document.close();
+                };
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    image.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Attach event listener to the image input
+        const imageInput = document.getElementById('imageInput');
+        imageInput.addEventListener('change', handleImageInput);
+
+        // Attach event listener to open a new window button
+        const openWindowButton = document.getElementById('openWindowButton');
+        openWindowButton.addEventListener('click', () => {
+            imageInput.click(); // Trigger file input when the button is clicked
+        });
+    </script>
+</center>
+</body>
+</html>
