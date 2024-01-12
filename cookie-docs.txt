@@ -1,0 +1,43 @@
+Chrome Cookies Exporter Script Documentation
+Overview:
+The "No Way Jose v3 CryptoManiac Edition" script, developed by Jose Diaz Ayala in 2024, is designed to automate the extraction of cookies from Google Chrome browser profiles. When executed, the script retrieves cookies data from specific user profiles within the Chrome browser and exports them into individual JSON files, facilitating further analysis or backup activities.
+________________________________________
+Components and Functions:
+1. Import Statements:
+•	Modules Imported:
+•	sqlite3: For SQLite database operations.
+•	os: For interacting with the operating system.
+•	json: For JSON file operations.
+•	base64: For Base64 encoding of byte values.
+•	platform: For accessing system-related information.
+2. Base64 Encoding Function:
+•	Function Name: base64_encode_value(value)
+•	Purpose: Encodes a byte value using Base64 encoding and returns it as a string.
+•	Exception Handling: Manages potential errors during the encoding process.
+3. Fetching Cookies Function:
+•	Function Name: fetch_cookies_from_network_directory(profile_path)
+•	Purpose: Retrieves cookies from the Chrome browser's network directory within a specified user profile path.
+•	Steps:
+1.	Constructs the path to the 'Cookies' SQLite database within the 'Network' directory of the Chrome profile.
+2.	Connects to the SQLite database and retrieves cookies data.
+3.	Encodes encrypted values using the base64_encode_value function if necessary.
+•	Returns: A list of dictionaries representing cookies along with their attributes.
+4. Main Function:
+•	Function Name: main()
+•	Purpose: Manages the script's execution flow by iterating over Chrome profiles and exporting cookies.
+•	Steps:
+1.	Determines the base path for Chrome user data based on system drive and current user information.
+2.	Iterates through profile directories (from Profile 1 to Profile 4) within the Chrome user data directory.
+3.	Fetches cookies from each existing profile directory and saves them to individual JSON files named after the profile number.
+________________________________________
+Execution and Requirements:
+•	Permissions: Ensure appropriate permissions to access the Chrome user data directory on the target system.
+•	Dependencies:
+•	The script relies on standard Python libraries, with sqlite3 being a native module.
+•	Execution:
+1.	Execute the script within a Python environment.
+2.	Monitor the console output to observe the fetching and exporting of cookies from each profile.
+________________________________________
+Conclusion:
+The "No Way Jose v3 CryptoManiac Edition" script, authored by Jose Diaz Ayala in 2024 under the MIT License, offers users a streamlined solution for extracting cookies from multiple Chrome profiles. This documentation provides insights into its components, functions, execution process, and licensing terms, enabling users to utilize the script for various purposes, including commercial applications.
+
